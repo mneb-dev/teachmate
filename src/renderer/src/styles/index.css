@@ -1,0 +1,137 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@plugin '@tailwindcss/typography';
+
+/* Dark mode is driven by a `.dark` class on <html> (set by ThemeProvider). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design tokens.
+ *
+ * The interface uses three colors:
+ *   1. Primary  – magenta by default; the hue is configurable via --primary-hue
+ *   2. Neutral  – backgrounds, surfaces, borders and text
+ *   3. Success  – status indicators only
+ */
+:root {
+  --primary-hue: 335;
+
+  --background: oklch(0.985 0.002 286);
+  --surface: oklch(1 0 0);
+  --surface-muted: oklch(0.967 0.003 286);
+  --border: oklch(0.92 0.004 286);
+  --foreground: oklch(0.21 0.006 286);
+  --muted-foreground: oklch(0.53 0.014 286);
+
+  --primary: oklch(0.56 0.23 var(--primary-hue));
+  --primary-hover: oklch(0.5 0.22 var(--primary-hue));
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft: oklch(0.955 0.03 var(--primary-hue));
+  --primary-soft-foreground: oklch(0.46 0.2 var(--primary-hue));
+
+  --success: oklch(0.6 0.15 155);
+  --success-soft: oklch(0.95 0.04 155);
+
+  --card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04), 0 1px 3px 0 rgb(0 0 0 / 0.03);
+}
+
+.dark {
+  --background: oklch(0.155 0.004 286);
+  --surface: oklch(0.2 0.005 286);
+  --surface-muted: oklch(0.245 0.006 286);
+  --border: oklch(0.29 0.006 286);
+  --foreground: oklch(0.965 0.002 286);
+  --muted-foreground: oklch(0.71 0.012 286);
+
+  --primary: oklch(0.66 0.21 var(--primary-hue));
+  --primary-hover: oklch(0.72 0.19 var(--primary-hue));
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft: oklch(0.29 0.07 var(--primary-hue));
+  --primary-soft-foreground: oklch(0.86 0.1 var(--primary-hue));
+
+  --success: oklch(0.72 0.15 155);
+  --success-soft: oklch(0.3 0.05 155);
+
+  --card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+}
+
+@theme inline {
+  --font-sans:
+    'Inter Variable', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-foreground: var(--primary-soft-foreground);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+
+  --shadow-card: var(--card-shadow);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-background font-sans text-foreground antialiased;
+}
+
+/* Markdown (typography plugin) mapped onto the app's design tokens, for both themes. */
+.prose-tm {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--muted-foreground);
+  --tw-prose-links: var(--primary);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-kbd: var(--foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: var(--surface-muted);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+}
+
+.prose-tm pre {
+  border: 1px solid var(--border);
+}
+
+/* Inline code as a subtle chip instead of the plugin's literal backticks. */
+.prose-tm :where(:not(pre) > code)::before,
+.prose-tm :where(:not(pre) > code)::after {
+  content: none;
+}
+
+.prose-tm :where(:not(pre) > code) {
+  border-radius: 0.375rem;
+  background: var(--surface-muted);
+  padding: 0.125rem 0.375rem;
+  font-weight: 500;
+}
+
+/* Thin, theme-aware scrollbars. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
